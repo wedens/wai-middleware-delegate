@@ -128,7 +128,7 @@ simpleProxy settings manager req respond
               | otherwise = "http"
             rawUrl = Wai.rawPathInfo req <> Wai.rawQueryString req
             effectiveUrl = scheme ++ "://" ++ (C8.unpack $ proxyHost settings) ++ C8.unpack (rawUrl)
-            newHost = proxyHost settings
+            newHost = fst (BS.breakSubstring ":" (proxyHost settings))
             addHostHeader = (:) (hHost, newHost)
 
         proxyReq' <- parseRequest effectiveUrl
